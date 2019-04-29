@@ -1,0 +1,1 @@
+export default FETCH_COORDINATES = 'FETCH_COORDINATES'
