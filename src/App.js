@@ -16,44 +16,70 @@ class App extends Component {
       weather: {
         main: '',
         description: '',
-        tempeture: 0,
+        temp: 0,
         pressure: 0,
         humidity: 0,
         temp_max: 0,
         temp_min: 0,
         sunrise: 0,
-        sunset: 0
-      }
+        sunset: 0,
+        name: ''
+      } 
     }
   }
 
   componentDidMount() {
     this.fetchCoords();
   }
-  fetchWeatherCoords(latitude, longitude) {
-    console.log(`openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_WEATHER_API}`);
-    axios.get(`openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_WEATHER_API}`)
-      .then((response => {
-        console.log(response);
-      }));
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if(nextState.coord !== this.state.coord) {
+      return true;
+    }
+    console.log(nextState.coord, this.state.coord)
+    return false;
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    
+    if(this.state.coord !== prevState.coord){
+      this.fetchWeatherCoords();
+      
+    } 
+    this.setState({
+      coord: this.state.coord
+    })    
+  }
+
+  fetchWeatherCoords() {
+    // `http://api.openweathermap.org/data/2.5/weather?lat=${this.state.coord.lat}&lon=${this.state.coord.lon}&appid=${process.env.REACT_APP_WEATHER_API}`
+    // api.openweathermap.org/data/2.5/weather?lat=35&lon=139
+    axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${this.state.coord.lat}&lon=${this.state.coord.lon}&appid=${process.env.REACT_APP_WEATHER_API}`)
+    .then(response => {
+      console.log(response.data.main)
+      this.setWeather(response.data);
+    })
+      
+  }
+  
   setCity(cityName) {
     this.setState({
       city: cityName
     })
   }
+  
   fetchCity(event) {
     this.setState({
       city: event.target.value
     });
   }
+  
   fetchCoords() {
-    navigator.geolocation.getCurrentPosition((position) => {
+    navigator.geolocation.getCurrentPosition( position => {
       this.setCoords(position);
-      this.fetchWeatherCoords(this.state.coord.lat, this.state.coord.lon);
-      console.log(this.state.coord.lat)
     });
   }
+  
   setCoords(param) {
     this.setState({
       coord: {
@@ -62,12 +88,48 @@ class App extends Component {
       }
     })
   }
+
+  setWeather(response) {
+    // Destructuring object
+    const { 
+      main: {
+        temp,
+        pressure,
+        humidity,
+        temp_max,
+        temp_min,
+      },
+      name, 
+      sys: { 
+        sunrise,
+        sunset 
+        }
+      } = response;
+    // Destructuring array
+    const [{main, description}] = response.weather;
+    this.setState({
+      weather: {
+        temp,
+        pressure,
+        humidity,
+        temp_max,
+        temp_min,
+        sunrise,
+        sunset,
+        name,
+        main,
+        description
+      }
+    })
+  }
+
   render() {
     return ( 
     <div>
-      <p>{this.state.coord.lat}</p>
+      {
+        this.state.weather.temp === 0 ? <p>loading</p> :  <Display weather={this.state.weather} />
+      }
       
-      <Display weather={this.state.weather} />
       <Search 
         getCity={this.fetchCity}
         city={this.state.city}

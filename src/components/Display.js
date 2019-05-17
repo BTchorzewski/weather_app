@@ -9,7 +9,7 @@ export default class Display extends Component {
     render() {
         return (
             <div>
-                display
+                <p>{this.props.weather.temp}</p>
             </div>
         )
     }
