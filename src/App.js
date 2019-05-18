@@ -33,7 +33,7 @@ class App extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if(nextState.coord !== this.state.coord) {
+    if(nextState.coord !== this.state.coord || nextState.weather !== this.state.weather) {
       return true;
     }
     console.log(nextState.coord, this.state.coord)
@@ -44,19 +44,15 @@ class App extends Component {
     
     if(this.state.coord !== prevState.coord){
       this.fetchWeatherCoords();
-      
-    } 
-    this.setState({
-      coord: this.state.coord
-    })    
+    }    
   }
 
   fetchWeatherCoords() {
-    // `http://api.openweathermap.org/data/2.5/weather?lat=${this.state.coord.lat}&lon=${this.state.coord.lon}&appid=${process.env.REACT_APP_WEATHER_API}`
+    console.log(`http://api.openweathermap.org/data/2.5/weather?lat=${this.state.coord.lat}&lon=${this.state.coord.lon}&appid=${process.env.REACT_APP_WEATHER_API}`)
     // api.openweathermap.org/data/2.5/weather?lat=35&lon=139
     axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${this.state.coord.lat}&lon=${this.state.coord.lon}&appid=${process.env.REACT_APP_WEATHER_API}`)
     .then(response => {
-      console.log(response.data.main)
+      console.log(response.data)
       this.setWeather(response.data);
     })
       
