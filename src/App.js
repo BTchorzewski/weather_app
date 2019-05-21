@@ -2,7 +2,30 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Search from './components/Search';
 import Display from './components/Display';
+import '../src/index.css';
+import styled from 'styled-components';
 
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  width: 30%;
+  margin: 0 auto;
+
+  @media (max-width: 92rem) {
+    width: 35%;
+  }
+
+  @media (max-width: 72rem) {
+    width: 50%;
+  }
+
+  @media (max-width: 36rem) {
+    width: 80%;
+  }
+`;
 
 class App extends Component {
   constructor(props) {
@@ -24,33 +47,39 @@ class App extends Component {
         sunrise: 0,
         sunset: 0,
         name: ''
-      } 
+      },
+      units: true 
     }
+    
   }
 
   componentDidMount() {
     this.fetchCoords();
   }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if(nextState.coord !== this.state.coord || nextState.weather !== this.state.weather) {
-      return true;
-    }
-    console.log(nextState.coord, this.state.coord)
-    return false;
-  }
-
+  
   componentDidUpdate(prevProps, prevState) {
     
     if(this.state.coord !== prevState.coord){
+      console.log('Coords updated');  
       this.fetchWeatherCoords();
-    }    
+      
+    }
+    if(this.state.city !== prevState.city){
+      console.log('City updated')
+      this.fetchWeatherCity();
+
+    }
+    if(this.state.city === '' && prevState.city !== '' && this.state.coord.lat !== 0 ) {
+      console.log('city is empty and coords are choosen')
+      this.fetchWeatherCoords();
+    }
+
   }
 
   fetchWeatherCoords() {
     console.log(`http://api.openweathermap.org/data/2.5/weather?lat=${this.state.coord.lat}&lon=${this.state.coord.lon}&appid=${process.env.REACT_APP_WEATHER_API}`)
     // api.openweathermap.org/data/2.5/weather?lat=35&lon=139
-    axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${this.state.coord.lat}&lon=${this.state.coord.lon}&appid=${process.env.REACT_APP_WEATHER_API}`)
+    axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${this.state.coord.lat}&lon=${this.state.coord.lon}&appid=${process.env.REACT_APP_WEATHER_API}&units=metric`)
     .then(response => {
       console.log(response.data)
       this.setWeather(response.data);
@@ -58,16 +87,21 @@ class App extends Component {
       
   }
   
-  setCity(cityName) {
-    this.setState({
-      city: cityName
+  fetchWeatherCity() {
+    console.log(`http://api.openweathermap.org/data/2.5/weather?q=${this.state.city}&appid=${process.env.REACT_APP_WEATHER_API}`)
+    axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${this.state.city}&appid=${process.env.REACT_APP_WEATHER_API}&units=metric`)
+    .then(response => {
+      this.setWeather(response.data);
+      
     })
+
   }
   
-  fetchCity(event) {
+  handlerChangedCity = (event) => {
+    event.preventDefault();
     this.setState({
       city: event.target.value
-    });
+    })
   }
   
   fetchCoords() {
@@ -102,7 +136,7 @@ class App extends Component {
         }
       } = response;
     // Destructuring array
-    const [{main, description}] = response.weather;
+    const [{main, description, icon}] = response.weather;
     this.setState({
       weather: {
         temp,
@@ -114,23 +148,27 @@ class App extends Component {
         sunset,
         name,
         main,
-        description
+        description,
+        icon
       }
     })
   }
 
+  changedUnit() {
+    this.setState({
+      units: !this.state.units
+    })
+  }
   render() {
     return ( 
-    <div>
+    <Wrapper>
       {
-        this.state.weather.temp === 0 ? <p>loading</p> :  <Display weather={this.state.weather} />
+        this.state.weather.temp === 0 ? <p>Blocked</p> :  <Display weather={this.state.weather} units={this.state.units} changedUnit={this.changedUnit.bind(this)}/>
       }
+     
+      <Search changed={this.handlerChangedCity.bind(this)}  city={this.state.city} />
       
-      <Search 
-        getCity={this.fetchCity}
-        city={this.state.city}
-      />
-    </div>
+    </Wrapper>
       
     );
   }
