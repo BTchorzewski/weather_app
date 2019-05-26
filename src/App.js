@@ -36,6 +36,7 @@ class App extends Component {
         lat: 0
       },
       city: '',
+      input: '',
       weather: {
         main: '',
         description: '',
@@ -50,7 +51,10 @@ class App extends Component {
       },
       units: true 
     }
-    
+    this.inputCity = React.createRef();
+    this.fetchCoords = this.fetchCoords.bind(this);
+    this.handleInput = this.handleInput.bind(this);
+    this.cleanInput = this.cleanInput.bind(this);
   }
 
   componentDidMount() {
@@ -75,6 +79,8 @@ class App extends Component {
     }
 
   }
+  
+
 
   fetchWeatherCoords() {
     console.log(`http://api.openweathermap.org/data/2.5/weather?lat=${this.state.coord.lat}&lon=${this.state.coord.lon}&appid=${process.env.REACT_APP_WEATHER_API}`)
@@ -97,16 +103,30 @@ class App extends Component {
 
   }
   
-  handlerChangedCity = (event) => {
+  handleInput(event) {
+    this.setState({
+      input: event.target.value
+    })
+  }
+
+  cleanInput() {
+    this.setState({
+      input: ""
+    })
+  }
+
+  handleChangedCity = (event) => {
     event.preventDefault();
     this.setState({
-      city: event.target.value
+      city: this.inputCity.value
     })
+    
   }
   
   fetchCoords() {
     navigator.geolocation.getCurrentPosition( position => {
       this.setCoords(position);
+      this.cleanInput();
     });
   }
   
@@ -166,7 +186,13 @@ class App extends Component {
         this.state.weather.temp === 0 ? <p>Blocked</p> :  <Display weather={this.state.weather} units={this.state.units} changedUnit={this.changedUnit.bind(this)}/>
       }
      
-      <Search changed={this.handlerChangedCity.bind(this)}  city={this.state.city} />
+      <Search 
+        changed={this.handleChangedCity.bind(this)}
+        handleCoords={this.fetchCoords} 
+        inputRef={el => this.inputCity = el } 
+        handleInput={this.handleInput}
+        input={this.state.input}
+      />
       
     </Wrapper>
       

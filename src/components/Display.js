@@ -1,4 +1,5 @@
 import React from 'react';
+import City from './City'
 import Settings from './Settings';
 import Temperature from './Temperature';
 import Description from './Description'
@@ -22,17 +23,18 @@ const Display = (props) => {
     return (
         <Wrapper>
             <Settings changedUnit={props.changedUnit} units={props.units}></Settings>
-            <Icon icon={'10d'}/>
-            <Description text={"Mist on the city"}></Description>
+            <Icon icon={props.weather.icon}/>
+            <Description text={props.weather.description}></Description>
             <Temperature temp={props.weather.temp} units={props.units}/>
-            <p>{props.weather.description}</p>
+            <City city={props.weather.name}></City>
+            
             <p>{props.weather.temp_max}</p>
             <p>{props.weather.temp_min}</p>
             <p>{props.weather.pressure}</p>
             <p>{props.weather.humidity}</p>
             <p>{props.weather.main}</p>
             
-            <p>{props.weather.name}</p>
+            
             
         </Wrapper>
     )

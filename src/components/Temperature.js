@@ -3,18 +3,20 @@ import styled, { keyframes } from 'styled-components';
 
 const show = keyframes`
     from {
-        opacity: 0;
+        
+        transform: rotateX(-90deg);
     }
 
     to {
         opacity: 1;
+        transform: rotateX(0);
     }
 `;
 
 const Wrapper = styled.div`
-    font-size: 5rem;
-    letter-spacing: .1rem;
-
+    font-size: 4rem;
+    padding: .5rem 0 2rem;
+    perspective: 10rem;
     & > h1 {
         animation: ${show} 2s;
     }

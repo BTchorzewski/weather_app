@@ -1,33 +1,69 @@
-import React from 'react';
+import React ,{ Component } from 'react';
 import styled from 'styled-components';
-
-const Wrapper = styled.div`
-    background-color:rgb(43, 114, 229);
+import '../linea_icon/styles.css';
+const Form = styled.form`
     width: 100%;
     font-size: 1rem;
     border-radius: .3rem;
-    border: .2rem solid rgb(43, 114, 229);
     margin-top: 1rem;
+    position: relative;
+    color: #fff;
     & > input {
         display: inline-block;
-        width: 100%;
-        font-size: 1.8rem;
-        padding: .3rem;
+        font-size: 2.2rem;
+        line-height: 5rem;
+        padding-left: 5rem;
+        margin-right: .5rem;
+        border-radius: .3rem;
         border: none;
-        outline: none;
-        background-color: rgb(84, 144, 242);
+        background-color:rgb(43, 114, 229);
+        width: 78%;
+        float: left;
+        
+    }
+    & > input:focus, input:valid {
         color: #fff;
     }
-`;
+    & > i {
+        vertical-align: middle;
+        position: absolute;
+        top: .5rem;
+        left: 0;
+        z-index: 2;
+        height: 6rem;
+        font-size: 2.6rem;
+        padding: .5rem;
+        
+    }
+    & > button {
+        width: 20%;
+        margin-left: auto;
+        border: none;
+        float: right;
+        height: 5rem;
+        background-color:rgb(43, 114, 229);
+        color: inherit;
+        border-radius: .3rem;
+    }
+`
 
-const Search = ( props ) => {
-    return (
-        <Wrapper>
-                <input onChange={props.changed} value={props.city} type='text'/>
-        </Wrapper>
-    )
+class Search extends Component {
+    constructor(props) {
+        super(props)
+    }
+    render() {
+        return (
+            <Form onSubmit={this.props.changed}>
+                <i onClick={this.props.handleCoords} className='icon-basic-geolocalize-01'></i>
+                <input type='text' ref={this.props.inputRef} onChange={this.props.handleInput} value={this.props.input}/>
+                <button type="submit">Search</button>
+            </Form>
+                
+                    
+                
+            
+        )
+    }
 }
-
-
 
 export default Search;
