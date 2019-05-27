@@ -1,32 +1,15 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
-
-const show = keyframes`
-    from {
-        
-        transform: rotateX(-90deg);
-    }
-
-    to {
-        opacity: 1;
-        transform: rotateX(0);
-    }
-`;
+import styled from 'styled-components';
 
 const Wrapper = styled.div`
     font-size: 4rem;
-    padding: .5rem 0 2rem;
-    perspective: 10rem;
-    & > h1 {
-        animation: ${show} 2s;
-    }
-
+    
 `;
 
 const Fahrenheit = (props) =>  {
     return (
         <React.Fragment>
-            <h1>{ (Math.floor(props.children * 1.8) + 32) }&deg;F</h1>
+            <h1>{ (Math.floor(props.children * 1.8) + 32) }</h1>
         </React.Fragment>
     )
 }
@@ -34,7 +17,7 @@ const Fahrenheit = (props) =>  {
 const Celsius = (props) =>  {
     return (
         <React.Fragment>
-            <h1>{Math.floor(props.children)} &deg;C</h1>
+            <h1>{Math.floor(props.children)}</h1>
         </React.Fragment>
     )
 }

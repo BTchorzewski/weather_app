@@ -6,25 +6,21 @@ import '../src/index.css';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
+  & * {
+    box-sizing: border-box;
+  }
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: column;
   height: 100vh;
-  width: 30%;
+  min-width: 32rem;
+  padding-top: 5rem;
   margin: 0 auto;
-
-  @media (max-width: 92rem) {
-    width: 35%;
-  }
-
-  @media (max-width: 72rem) {
-    width: 50%;
-  }
-
-  @media (max-width: 36rem) {
-    width: 80%;
-  }
+  background-image: linear-gradient(to right bottom, rgba(100, 214, 244, .4), rgb(80, 153, 196, .8) 50%);
+  color: rgb(146, 152, 153);
+  overflow: hidden;
+  
 `;
 
 class App extends Component {
@@ -50,11 +46,12 @@ class App extends Component {
         name: ''
       },
       units: true 
-    }
+    };
     this.inputCity = React.createRef();
     this.fetchCoords = this.fetchCoords.bind(this);
     this.handleInput = this.handleInput.bind(this);
     this.cleanInput = this.cleanInput.bind(this);
+    this.handleChangedCity =this.handleChangedCity.bind(this);
   }
 
   componentDidMount() {
@@ -62,7 +59,6 @@ class App extends Component {
   }
   
   componentDidUpdate(prevProps, prevState) {
-    
     if(this.state.coord !== prevState.coord){
       console.log('Coords updated');  
       this.fetchWeatherCoords();
@@ -77,25 +73,20 @@ class App extends Component {
       console.log('city is empty and coords are choosen')
       this.fetchWeatherCoords();
     }
-
   }
   
 
 
   fetchWeatherCoords() {
-    console.log(`http://api.openweathermap.org/data/2.5/weather?lat=${this.state.coord.lat}&lon=${this.state.coord.lon}&appid=${process.env.REACT_APP_WEATHER_API}`)
-    // api.openweathermap.org/data/2.5/weather?lat=35&lon=139
-    axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${this.state.coord.lat}&lon=${this.state.coord.lon}&appid=${process.env.REACT_APP_WEATHER_API}&units=metric`)
+    axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${this.state.coord.lat}&lon=${this.state.coord.lon}&appid=${process.env.REACT_APP_WEATHER_API}&units=metric`)
     .then(response => {
-      console.log(response.data)
       this.setWeather(response.data);
     })
       
   }
   
   fetchWeatherCity() {
-    console.log(`http://api.openweathermap.org/data/2.5/weather?q=${this.state.city}&appid=${process.env.REACT_APP_WEATHER_API}`)
-    axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${this.state.city}&appid=${process.env.REACT_APP_WEATHER_API}&units=metric`)
+    axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${this.state.city}&appid=${process.env.REACT_APP_WEATHER_API}&units=metric`)
     .then(response => {
       this.setWeather(response.data);
       
@@ -146,28 +137,18 @@ class App extends Component {
         temp,
         pressure,
         humidity,
-        temp_max,
-        temp_min,
+        
       },
-      name, 
-      sys: { 
-        sunrise,
-        sunset 
-        }
+      name
       } = response;
     // Destructuring array
-    const [{main, description, icon}] = response.weather;
+    const [{description, icon}] = response.weather;
     this.setState({
       weather: {
         temp,
         pressure,
         humidity,
-        temp_max,
-        temp_min,
-        sunrise,
-        sunset,
         name,
-        main,
         description,
         icon
       }
@@ -182,20 +163,19 @@ class App extends Component {
   render() {
     return ( 
     <Wrapper>
-      {
-        this.state.weather.temp === 0 ? <p>Blocked</p> :  <Display weather={this.state.weather} units={this.state.units} changedUnit={this.changedUnit.bind(this)}/>
-      }
-     
+      <Display weather={this.state.weather} units={this.state.units} changedUnit={this.changedUnit.bind(this)}/>
       <Search 
-        changed={this.handleChangedCity.bind(this)}
-        handleCoords={this.fetchCoords} 
-        inputRef={el => this.inputCity = el } 
-        handleInput={this.handleInput}
-        input={this.state.input}
+        search={
+          {
+            changed: this.handleChangedCity,
+            handleCoords: this.fetchCoords,
+            inputRef: (el) => {this.inputCity = el },
+            handleInput: this.handleInput,
+            input: this.state.input
+          }
+        }
       />
-      
     </Wrapper>
-      
     );
   }
 }

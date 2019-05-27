@@ -2,15 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-    display: inline-block;
-    position: absolute;
-    top: .5rem;
-    right: .5rem;
-    padding: .3rem .5rem;
-    background-color: #fff;
-    color: #000;
-    border-radius: 10rem;
-    text-align: center;
+    font-size: 6rem;
+    transform: translateY(-25%);
 `;
 
 
@@ -21,7 +14,7 @@ const Settings = (props) => {
 
         <Wrapper onClick={props.changedUnit}>
         {
-            props.units ? <p>To Celsius</p> : <p>To Fahrenheit</p>
+            props.units ? <p>&deg;C</p> : <p>&deg;F</p>
         }
         
         </Wrapper>
