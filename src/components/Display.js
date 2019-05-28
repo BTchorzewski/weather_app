@@ -11,7 +11,7 @@ const Wrapper = styled.div`
     background-image: linear-gradient(to right bottom, rgb(252, 252, 252), rgb(246, 252, 219));
     padding: 4rem;
     border-radius: .3rem;
-    width: 32rem;
+    width: 40rem;
 `; 
 const Wrapper2 = styled.div`
     display: flex;

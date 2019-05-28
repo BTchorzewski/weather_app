@@ -1,11 +1,10 @@
 {
   "name": "weather-app",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
     "gh-pages": "^2.0.1",
-    "jsonp": "^0.2.1",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
     "styled-components": "^4.2.0"
@@ -28,8 +27,5 @@
     "not op_mini all"
   ],
   "homepage": "https://BTchorzewski.github.io/weather_app",
-  "proxy": "http://localhost:3000",
-  "devDependencies": {
-    "@fortawesome/fontawesome-free": "^5.8.2"
-  }
+  "proxy": "http://localhost:3000"
 }

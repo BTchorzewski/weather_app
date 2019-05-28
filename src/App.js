@@ -6,9 +6,7 @@ import '../src/index.css';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-  & * {
-    box-sizing: border-box;
-  }
+  
   display: flex;
   justify-content: flex-start;
   align-items: center;

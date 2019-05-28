@@ -4,7 +4,7 @@ import '../linea_icon/styles.css';
 const Form = styled.form`
     display: flex;
     justify-content: space-between;
-    width: 32rem;
+    width: 40rem;
     font-size: 1.8rem;
     position: relative;
     padding: 1rem 0;
