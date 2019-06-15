@@ -1,7 +1,9 @@
 import React from 'react'
+import Paragraph from './Paragraph';
+
 const Humidity = (props) => {
     return (
-        <p>Humidity: {props.humidity}%</p>
+        <Paragraph>Humidity: {props.humidity}%</Paragraph>
     )
 }
 

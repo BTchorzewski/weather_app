@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-    font-size: 4rem;
+    font-size: 3rem;
     
 `;
 

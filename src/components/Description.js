@@ -1,13 +1,16 @@
 import React from 'react';
+import Paragraph from './Paragraph';
 import styled from 'styled-components';
-const P = styled.p`
-    display: inline-block;
 
+const Align = styled.div`
+    transform: translate(-35%,33%);
 `;
 
 const Description = (props) => {
     return (
-        <P>{props.text}</P>
+        <Align>
+            <Paragraph>{props.text}</Paragraph>
+        </Align>
     )
 }
 

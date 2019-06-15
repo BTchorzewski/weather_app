@@ -8,32 +8,43 @@ import Humidity from './Humidity'
 import Icon from './Icon';
 import styled from 'styled-components'
 const Wrapper = styled.div`
-    background-image: linear-gradient(to right bottom, rgb(252, 252, 252), rgb(246, 252, 219));
-    padding: 4rem;
+    background-color: rgb(235, 237, 244);
+    padding: 5rem 2rem;
     border-radius: .3rem;
-    width: 40rem;
-`; 
-const Wrapper2 = styled.div`
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    height: 10rem;
-    width: 100%;
+    flex-direction: column;
+    align-items:center;
+    justify-content: space-around;
+    text-align: left;
+    width: 60%;
+    @media only screen and (max-width: 37.5em) {
+        width: 95%;
+    }
+`; 
+
+const Subwrapper = styled.div`
+    display: flex;
+    margin-bottom: 2rem;
     position: relative;
 `;
 
 const Display = (props) => {
     return (
         <Wrapper>
-            <Wrapper2>
-                <Icon icon={props.weather.icon}/>
+        
+            
+            <Subwrapper>
                 <Temperature temp={props.weather.temp} units={props.units}/>
                 <Settings changedUnit={props.changedUnit} units={props.units}></Settings>
-            </Wrapper2>
+            </Subwrapper>
             <City city={props.weather.name}></City>
             <Pressure pressure={props.weather.pressure}/>
             <Humidity humidity={props.weather.humidity}/>
-            <Description text={props.weather.description}></Description>
+            <Subwrapper>
+                <Icon icon={props.weather.icon}/>
+                <Description text={props.weather.description}/>
+            </Subwrapper>
+            
         </Wrapper>
     )
 }

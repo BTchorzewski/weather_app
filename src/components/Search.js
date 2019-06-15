@@ -2,38 +2,55 @@ import React ,{ Component } from 'react';
 import styled from 'styled-components';
 import '../linea_icon/styles.css';
 const Form = styled.form`
-    display: flex;
-    justify-content: space-between;
-    width: 40rem;
-    font-size: 1.8rem;
     position: relative;
-    padding: 1rem 0;
-    color: rgb(146, 152, 153);
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 0;
+    font-size: 1.8rem;
+    color: rgb(133, 135, 140);
+    width: 60%;
+    @media only screen and (max-width: 37.5em) {
+        width: 95%;
+    }
+    
 `
 const I = styled.i`
     position: absolute;
     z-index: 2;
-    top: 53%;
-    left: 2%;
-    transform: translateY(-42%);
-    color: #632916;
+    top: 2.5rem;
+    left: .5rem;
+    color: rgb(133, 135, 140);
+    font-size: 1.8rem;
+    transition: all .3s;
+    
+    &:hover {
+        transform: scale(1.2)
+    }
 `
 const Input = styled.input`
-    line-height: 1.8;
-    padding-left: 11%;
-    margin-right: 1rem;
-    background-image: linear-gradient(90deg, rgba(252, 170, 27, 0.49) 10%, rgb(246, 252, 219) 15%);
+    background-color: rgb(235, 237, 244);
     border: none;
-    border-radius: 10rem;
-    width: 74%;
+    margin-bottom: 1rem;
+    padding: .5rem 0 .5rem 2.5rem;
+    border-radius: .3rem;
+    &:placeholder-shown {
+        padding-left: 3rem;
+    }
 `
 const Button = styled.button`
-    color: rgb(146, 152, 153);
-    font-size: 80%;
-    background-image: linear-gradient(to right bottom, rgb(252, 252, 252), rgb(246, 252, 219));
+    color: inherit;
+    font-size: 1.8rem;
+    background-color: rgb(235, 237, 244);
     border: none;
-    border-radius: 10rem;
-    padding: 0 .5rem;
+    border-radius: .3rem;
+    padding: .5rem;
+    transition: all .2s;
+    
+    &:hover {
+        transform: translateY(-0.5rem);
+        box-shadow: 0 .5rem 2rem rgba(#000, .2);
+        
+    }
 `
 
 
@@ -46,7 +63,7 @@ class Search extends Component {
         return (
             <Form onSubmit={this.props.search.changed}>
                 <I onClick={this.props.search.handleCoords} className='icon-basic-geolocalize-01' />
-                <Input type='text' ref={this.props.search.inputRef} onChange={this.props.search.handleInput} value={this.props.search.input}/>
+                <Input type='text' ref={this.props.search.inputRef} onChange={this.props.search.handleInput} value={this.props.search.input} placeholder="Write your city"/>
                 <Button type="submit">Search</Button>
             </Form>
         )

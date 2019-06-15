@@ -1,9 +1,9 @@
 import React from 'react';
-
+import Paragraph from './Paragraph';
 
 const Pressure = (props) => {
     return (
-        <p>Pressure: {props.pressure}hPa</p>
+        <Paragraph>Pressure: {props.pressure}hPa</Paragraph>
     )
 }
 

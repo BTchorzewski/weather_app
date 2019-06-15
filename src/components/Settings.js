@@ -2,11 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-    font-size: 6rem;
-    transform: translateY(-25%);
-    & sup {
-
-    }
+    font-size: 3rem;
+    transform: translate(1rem,-1.5rem);
 `;
 
 

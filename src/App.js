@@ -12,12 +12,14 @@ const Wrapper = styled.div`
   align-items: center;
   flex-direction: column;
   height: 100vh;
-  min-width: 32rem;
   padding-top: 5rem;
   margin: 0 auto;
   background-image: linear-gradient(to right bottom, rgba(100, 214, 244, .4), rgb(80, 153, 196, .8) 50%);
   color: rgb(146, 152, 153);
   overflow: hidden;
+  @supports not (background-image: linear-gradient(to right bottom, rgba(100, 214, 244, .4), rgb(80, 153, 196, .8) 50%)) {
+    background-color: rgba(100, 214, 244, .4)
+  }
   
 `;
 
